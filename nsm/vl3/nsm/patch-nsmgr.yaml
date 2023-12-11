@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nsmgr
+spec:
+  strategy:
+    type: Recreate
+    rollingUpdate: null
+  template:
+    spec:
+      containers:
+      - name: nsmgr
+        resources:
+          limits:
+            cpu: null
+      - name: exclude-prefixes
+        resources:
+          limits:
+            cpu: null
