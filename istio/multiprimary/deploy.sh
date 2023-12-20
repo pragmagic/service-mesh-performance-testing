@@ -129,9 +129,9 @@ try_run_line k2 apply -n istio-system -f "$parent_path/configs-k8s/expose-servic
 kind_arg=
 if [ ! "$USE_KIND_NODE" = "" ]; then
     kind1_cp_ip=$(k1 get node kind-1-control-plane -o jsonpath='{.status.addresses[0].address}') || exit
-    kind1_arg="--server $kind1_cp_ip"
+    kind1_arg="--server https://$kind1_cp_ip:6443"
     kind2_cp_ip=$(k2 get node kind-2-control-plane -o jsonpath='{.status.addresses[0].address}') || exit
-    kind2_arg="--server $kind2_cp_ip"
+    kind2_arg="--server https://$kind2_cp_ip:6443"
 fi
 try_run_line istioctl create-remote-secret \
     --kubeconfig="$KUBECONFIG2" \
