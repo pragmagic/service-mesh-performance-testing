@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nse-vl3-vpp
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: nse
+        env:
+        - name: NSM_SERVICE_NAMES
+          value: "my-vl3-network"
+        - name: NSM_REGISTER_SERVICE
+          value: "false"
+        - name: NSM_DNS_TEMPLATES
+          value: "{{ index .Labels \"dnsName\" }}.{{ target .NetworkService }}."
+        resources:
+          limits:
+            cpu: null
+        securityContext:
+          privileged: true
+      #   volumeMounts:
+      #   - name: vpp-conf
+      #     mountPath: /etc/vpp/helper
+      # volumes:
+      # - name: vpp-conf
+      #   configMap:
+      #     name: vl3-vpp-conf
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vl3-ipam
+spec:
+  template:
+    spec:
+      containers:
+      - name: vl3-ipam
+        resources:
+          limits:
+            cpu: null

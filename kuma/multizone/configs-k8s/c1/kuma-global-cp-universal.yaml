@@ -1,0 +1,340 @@
+---
+# Source: kuma/templates/cp-rbac.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kuma-control-plane
+  namespace: kuma-global-cp
+  labels: 
+    app: kuma-control-plane
+    helm.sh/chart: kuma-2.4.3
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/version: "2.4.3"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: kuma/templates/cp-webhooks-and-secrets.yaml
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/tls
+metadata:
+  name: kuma-tls-cert
+  namespace: kuma-global-cp
+  labels: 
+    app: kuma-control-plane
+    helm.sh/chart: kuma-2.4.3
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/version: "2.4.3"
+    app.kubernetes.io/managed-by: Helm
+data:
+  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURjRENDQWxpZ0F3SUJBZ0lRUUJvOE1mNkFZOXNiTmdqc3FrUVE2ekFOQmdrcWhraUc5dzBCQVFzRkFEQVMKTVJBd0RnWURWUVFERXdkcmRXMWhMV05oTUI0WERUSXpNVEF4T0RBNU1EZzFPVm9YRFRNek1UQXhOVEE1TURnMQpPVm93SFRFYk1Ca0dBMVVFQXhNU2EzVnRZUzFqYjI1MGNtOXNMWEJzWVc1bE1JSUJJakFOQmdrcWhraUc5dzBCCkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQXgybThtS2ZHWWx1dHJ6eU5wTFMxWENpVS9xNXFHSUplUGt4ZnNNay8KNFVFRXo2eHAvMlFXVFcydFdwaXQ5V2xqK1JUdFY1T0xycmJ5ay9HaGlyN0xpNEFPQko0RWh3aXRJTlJWQWk3dQp6cEJvdHhVVm1WMHdjS0FObUZIYTZrU0h3UzdrakVlV2RsNzY1bXJGNXp3ZzVMcjV1eDJvQndsR0xXSUo5VFRmCnVqWUJkSjdONXFJRHVDVkY2RS8rWUIyUUJmVWNwazB5ZGZPNHFIZ0RpT241TjN6cTJPUmRnVjdyZENCV3NEdTQKVDFpZUo4VEJTUlFmUVc0RmlsaGMzQlJhK29QNjZhUW11eURlU3JBS2dYNm8yRFVvbzE2MmNBWXQwS2o2cGJvKwpZdGMxWCtEUnJnS2p3UnBISXRWQ280M0VoVzByS1lNOFN3QWRKZW5LamEyTS9RSURBUUFCbzRHMk1JR3pNQTRHCkExVWREd0VCL3dRRUF3SUZvREFkQmdOVkhTVUVGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0RBWUQKVlIwVEFRSC9CQUl3QURBZkJnTlZIU01FR0RBV2dCVFp4bVY5MWkxeEpkT0MyOXFUNGxWT0xrUThqREJUQmdOVgpIUkVFVERCS2dpRnJkVzFoTFdOdmJuUnliMnd0Y0d4aGJtVXVhM1Z0WVMxbmJHOWlZV3d0WTNDQ0pXdDFiV0V0ClkyOXVkSEp2YkMxd2JHRnVaUzVyZFcxaExXZHNiMkpoYkMxamNDNXpkbU13RFFZSktvWklodmNOQVFFTEJRQUQKZ2dFQkFCM0s5MEFUMXNheGV1K3BldGFyU0RnSWZjemVFS1NHUXZtdkp1OGwzMHpaY0RJcTAySUhyNEk1NFlKYwo1M3AzaVVtODJBL2JKSWV4M2NZclArTE0zS2UzS2tsamhkMzVTVjBodzBnM1o2eGVXeExYNmg4Y29WdGNoZWw0CllSY2VqVGtadGJWaGw1dTQxT2VTN1IxSS9hSFhiaVR2eHpUT0FFWUJuRlZ1ZzZxVTYwMWNCbWZRbzFaYkF1c0cKRnEvMnhNTHFBV3BPM0JuSzcyZWJ1OGZYZmIxMTN0V2FwNENsd0hCWWZVYkw3RzRmYkRaYnQ5TzlOc0Fpc1o5RwpyK0ZDTlB5NmVsd3BsWSs5dDVxOTBaWGhJWU14bkc2WnJObzRaUjlXRnlWYjArMXlhNFh5VUxXakw3ZEZ6dEp4Cng5UEg2MVZQR3Ztdkt4Rll0WUZRYk5HSm9HRT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+  tls.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcFFJQkFBS0NBUUVBeDJtOG1LZkdZbHV0cnp5TnBMUzFYQ2lVL3E1cUdJSmVQa3hmc01rLzRVRUV6NnhwCi8yUVdUVzJ0V3BpdDlXbGorUlR0VjVPTHJyYnlrL0doaXI3TGk0QU9CSjRFaHdpdElOUlZBaTd1enBCb3R4VVYKbVYwd2NLQU5tRkhhNmtTSHdTN2tqRWVXZGw3NjVtckY1endnNUxyNXV4Mm9Cd2xHTFdJSjlUVGZ1allCZEo3Tgo1cUlEdUNWRjZFLytZQjJRQmZVY3BrMHlkZk80cUhnRGlPbjVOM3pxMk9SZGdWN3JkQ0JXc0R1NFQxaWVKOFRCClNSUWZRVzRGaWxoYzNCUmErb1A2NmFRbXV5RGVTckFLZ1g2bzJEVW9vMTYyY0FZdDBLajZwYm8rWXRjMVgrRFIKcmdLandScEhJdFZDbzQzRWhXMHJLWU04U3dBZEplbktqYTJNL1FJREFRQUJBb0lCQVFDeDNUOEp6a1Bsd1M0Vwo2bVRRYnhxQW0vWGhnQUpENEN4ZFZ0UFhKSG9rMlZDSVI1bTM0VGIvVXY5WG1tMDNRd3lYdzdHNjluQ1ZvcnFWCmVPV0VrbytNMnVnbCtDZkRwZHArT01XbUQrU1RQRDBhWitUL0NSN0dwZ3ZhTzlDT09oZjRHSEprS1Fvc2hLVTMKMWk2MUJHMjJkb3QrK1lIQTNPWEtYdkxRMHB0blEyVkJKdFFuTkFNYnFkeVFyQUk0dWkyUmV5MFJvQ1hKRWJtbgpSV2RWSXRXVTFxOWZHTlIyYU9iRHpxWW9zTDRQVWsyQ0JDVTdwdmc4eVFqSmMxZXhuOXVjNTdHalNlU1BoZnBBCk9sc1RDZEFjc0ZDdm9vTmYrakczY0xJMi9LTVBBT2NIdWpFMWc5THZldWRPYW9iRkhCRzZiekV4cURCSWV5ZnYKSVJubjRHMEJBb0dCQU13b2R6RE9KSHVrS0taaXRnNzYvOGIyS21DUFBHWnVsTDJPWWhQSEtwMTZUVVZ6U2dVNgpuYnZIS2VobVlxMFU3T29CdUZzcWkzZ3lRcHh0M25pMFZBSktLM2szd2xxeU55a1laSUZqZzFFYUJWOGw2NnhlCmRTcE11VzB0citsWWp5K1BKaWNPSXlvb2g0Uk5Dd3VWL1dsdzN4NGgyVE9pS3Q4QlU3bUdrR3k5QW9HQkFQb00KMElnV1haaG44ZlF0cm4wQlY1NXpoWWRJb1pJVVFlbFFDU1ZjOTVkdzRLeldxRDRpYlBTc09aMnNLR25hdTVrNAo4bjB6Slp5eHR5L0R4MkZmVG5WSWdnZXlheG9PbXBURURaOUhtOTJ3ci9lWTB3bGJaSHdtQ05DUlViSG1JUmJoCkZ2c2VyZTJ1THFCTlJscVFKRk1VeTgxMmk2VXFIYzNIU0RuckwwVkJBb0dCQUs5aThBb29mZVVPQUxIM3lTbVQKYlpxU0xaT29XWjR4ejJ3TTNxclpCZjRsYkM2R3ZZZENkUEUxUndaVXR0NjBSRmMveFEza3ZjNHpkMUFGZndLNQpBQmE3ZXg5MnpHdTRBSFU0ZEZkSGt5OWdLRTgyTjRGcjRFSEhpZUNHU0VJeGgwaTNOSEtHemFUUkRxS1V3VEZoCjJFTDE2V2RzY3JqTnp3Q25saktpckg0TkFvR0FOVlRxWFR3MzlqdWxWV2t3NENTYkpZYUtJbEtSYzNDeXBpcVYKNk13dFdyV09sZzZxajZZVUN4TjRybko3cENncy92OHdhUmV4bS93amtDSjNzZ0w3M3ZQNkY5NHNEY0N6bzZzMQpKSlhIWHI5Q3FOS0ZvR2RIeFZydllseThTZTlGZTNYQ3l3aStIQVdjbUVBakUwblBGWkZIN3Fpc0hDd2hjelJmCjZVcUtLSUVDZ1lFQXdETzIrK2VGRFVVKzVhdS9kcFZmQ29ITjRHaFoxZmN4NCt6VnR3blJNWFVmQXVpc3JzSXEKTGZoTnIzdmY5bE9BODVrWUhZZlVmUnZlNnhtdlhMd3c3YzdWcGZJWGRIb1JWTHpvUGhTckJIYmlXYkVDbW1UdAp5VWpsVTJ5SDZ6TWhSQWxhUTFDSkxYRUowb1RlQ0k2eDdiZWgwM1NQVW9aVmtZM3pRYWFQSHhRPQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
+  ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURFRENDQWZpZ0F3SUJBZ0lSQUtqV0pubG5KNzkyTWlpN2s4NDgyOUV3RFFZSktvWklodmNOQVFFTEJRQXcKRWpFUU1BNEdBMVVFQXhNSGEzVnRZUzFqWVRBZUZ3MHlNekV3TVRnd09UQTROVGxhRncwek16RXdNVFV3T1RBNApOVGxhTUJJeEVEQU9CZ05WQkFNVEIydDFiV0V0WTJFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3CmdnRUtBb0lCQVFER2FQZVpTcmV3a1p2S2I2dGtXWTh0L2lGNkFsY2dNYUx6VTdUaUFrcElHZXpzc3A2eWVHMEEKMjdtZnh5bS8wT09rakllSzNRZ25ObEU3eG1HK3RKVUI0RkVxV0ZJSWlGcDR4NTIyQmpXYmZSeWJHaDhUZHBReAozTW4rUEFiaHF2amJTTDVKbW96L2hpb3JaNjYxS0lTWVVCZ0R1RmVnOHkyM2RUcGlESXVpdTBCc2FENnNEQmxaCjlVbzZmSzQ5RHFHWUJaSmNpQ0tQczJaS1ZrU3hWdlg3aWppck1PZWV1M252TytHRWlCaHFOREc0U2dIV0NVTjUKVlNjNVc2bEdUQy9UWkxaYXB0eDE0ZUhzVDZEYmtlU3krQWVOeUtKeVkvSkNWeUVPMjVwKzZFbWg2Zitib29TLwpRQ2N6SXVQTEhiTjN3dGVSQ1ZMNUpHZU4xQ2oxS090ZkFnTUJBQUdqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDCnBEQWRCZ05WSFNVRUZqQVVCZ2dyQmdFRkJRY0RBUVlJS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIKL3pBZEJnTlZIUTRFRmdRVTJjWmxmZFl0Y1NYVGd0dmFrK0pWVGk1RVBJd3dEUVlKS29aSWh2Y05BUUVMQlFBRApnZ0VCQU1ZTk4rYis1WGNwM3JFdGFENmpwUnhSa2lkOGZFajdrcUIxNzB5UU5YY01EbGlqQU9wMUwvYXM3ZHZrCjhrTFJzSTBMcVRwQTVKU1RuZEhyaVcyZnFDckVUMXlhVnpVVXc1REh2d011SXcrN2Q1VlRwMnQyZVJlMEg2SVAKcWRSVGNjZEpKS3JKaDFXaFkyMWt0MTdEckxVZDY1bEJBbDl4Q3ZtalV6N2dzSVN5cGhJWVdRQlVkb3VSRFo1bgo3RUV5Qk5XbkQzTWNES25Va2hzVmxjRjgrQVpiL3NOWGdKTkoyZjYybmE1NTg4bzQ2QmxlcjhHWDdnRzJ5eEZMCllrUkxwbCtsUTJQekt3aUhPSStMcFByRVRJdThRc2w0bTcyWDZzd3JXVkd0MUhRd3J5OW1wOGZKSTFBNm0zMmkKU215UDdZbDl6WmRhS01JaGtSTHN6aFJ0V1JVPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+---
+# Source: kuma/templates/cp-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kuma-control-plane-config
+  namespace: kuma-global-cp
+  labels: 
+    app: kuma-control-plane
+    helm.sh/chart: kuma-2.4.3
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/version: "2.4.3"
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.yaml: |
+    # use this file to override default configuration of `kuma-cp`
+    #
+    # see conf/kuma-cp.conf.yml for available settings
+---
+# Source: kuma/templates/cp-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kuma-control-plane
+  namespace: kuma-global-cp
+  labels: 
+    app: kuma-control-plane
+    helm.sh/chart: kuma-2.4.3
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/version: "2.4.3"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "5680"
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5680
+      name: diagnostics
+      appProtocol: http
+    - port: 5681
+      name: http-api-server
+      appProtocol: http
+    - port: 5682
+      name: https-api-server
+      appProtocol: https
+  selector:
+    app: kuma-control-plane
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/instance: kuma
+---
+# Source: kuma/templates/cp-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuma-control-plane
+  namespace: kuma-global-cp
+  labels: 
+    app: kuma-control-plane
+    helm.sh/chart: kuma-2.4.3
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/version: "2.4.3"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kuma
+      app.kubernetes.io/instance: kuma
+      app: kuma-control-plane
+  template:
+    metadata:
+      annotations:
+        checksum/config: 18f7e2e4f4986e62abddf02dbc4aa88bedc001cc92c741b1bff77da7f9f7208c
+        checksum/tls-secrets: 79c9ff270f99eaf87bbcb4e6f063e505e5bfb630a9d559080585f5f1d48f97df
+      labels: 
+        app: kuma-control-plane
+        helm.sh/chart: kuma-2.4.3
+        app.kubernetes.io/name: kuma
+        app.kubernetes.io/instance: kuma
+        app.kubernetes.io/version: "2.4.3"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      affinity: 
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - 'kuma'
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                  - 'kuma'
+                - key: app
+                  operator: In
+                  values:
+                  - 'kuma-control-plane'
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      securityContext:
+        runAsNonRoot: true
+      serviceAccountName: kuma-control-plane
+      automountServiceAccountToken: true
+      nodeSelector:
+        
+        kubernetes.io/os: linux
+      hostNetwork: false
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: control-plane
+          image: "docker.io/kumahq/kuma-cp:2.4.3"
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            readOnlyRootFilesystem: true
+          env:
+            - name: KUMA_DEFAULTS_SKIP_MESH_CREATION
+              value: "false"
+            - name: KUMA_ENVIRONMENT
+              value: "universal"
+            - name: KUMA_GENERAL_WORK_DIR
+              value: "/tmp/kuma"
+            - name: KUMA_MODE
+              value: "global"
+            - name: KUMA_STORE_TYPE
+              value: "memory"
+            - name: KUMA_INTER_CP_CATALOG_INSTANCE_ADDRESS
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          args:
+            - run
+            - --log-level=info
+            - --log-output-path=
+            - --config-file=/etc/kuma.io/kuma-control-plane/config.yaml
+          ports:
+            - containerPort: 5680
+              name: diagnostics
+              protocol: TCP
+            - containerPort: 5681
+            - containerPort: 5682
+            - containerPort: 5443
+          livenessProbe:
+            timeoutSeconds: 10
+            httpGet:
+              path: /healthy
+              port: 5680
+          readinessProbe:
+            timeoutSeconds: 10
+            httpGet:
+              path: /ready
+              port: 5680
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              cpu: 500m
+              memory: 256Mi
+          
+          volumeMounts:
+            - name: kuma-control-plane-config
+              mountPath: /etc/kuma.io/kuma-control-plane
+              readOnly: true
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: kuma-control-plane-config
+          configMap:
+            name: kuma-control-plane-config
+        - name: tmp
+          emptyDir: {}
+---
+# Source: kuma/templates/pre-install-patch-namespace-job.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kuma-patch-ns-job
+  namespace: kuma-global-cp
+  annotations:
+    "helm.sh/hook": "pre-install"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+  labels:
+    helm.sh/chart: kuma-2.4.3
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/version: "2.4.3"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: kuma/templates/pre-install-patch-namespace-job.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kuma-patch-ns-job
+  namespace: kuma-global-cp
+  annotations:
+    "helm.sh/hook": "pre-install"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+  labels:
+    helm.sh/chart: kuma-2.4.3
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/version: "2.4.3"
+    app.kubernetes.io/managed-by: Helm
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    resourceNames:
+      - kuma-global-cp
+    verbs:
+      - get
+      - patch
+---
+# Source: kuma/templates/pre-install-patch-namespace-job.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kuma-patch-ns-job
+  namespace: kuma-global-cp
+  annotations:
+    "helm.sh/hook": "pre-install"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+  labels:
+    helm.sh/chart: kuma-2.4.3
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/version: "2.4.3"
+    app.kubernetes.io/managed-by: Helm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kuma-patch-ns-job
+subjects:
+  - kind: ServiceAccount
+    name: kuma-patch-ns-job
+    namespace: kuma-global-cp
+---
+# Source: kuma/templates/pre-install-patch-namespace-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kuma-patch-ns
+  namespace: kuma-global-cp
+  labels:
+  
+    helm.sh/chart: kuma-2.4.3
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/version: "2.4.3"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": "pre-install"
+    
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+spec:
+  template:
+    metadata:
+      name: kuma-patch-ns-script
+      labels:
+    
+        helm.sh/chart: kuma-2.4.3
+        app.kubernetes.io/name: kuma
+        app.kubernetes.io/instance: kuma
+        app.kubernetes.io/version: "2.4.3"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: kuma-patch-ns-job
+      nodeSelector:
+      
+        kubernetes.io/os: linux
+      restartPolicy: OnFailure
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: pre-install-job
+          image: "kumahq/kubectl:v1.20.15"
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsUser: 65534
+          resources:
+             requests:
+               cpu: "100m"
+               memory: "256Mi"
+             limits:
+               cpu: "100m"
+               memory: "256Mi"
+          command:
+            - 'kubectl'
+            - 'patch'
+            - 'namespace'
+            - "kuma-global-cp"
+            - '--type'
+            - 'merge'
+            - '--patch'
+            - '{ "metadata": { "labels": { "kuma.io/system-namespace": "true" } } }'

@@ -3,15 +3,6 @@
 /tmp/
 /private/
 
-# files created by metallb setup
-/metallb-config.yaml
-/configmap.yaml
-/custom-configmap.yaml
-
-# other files, should be moved to /private
-
-/deployments-k8s
 /.vscode
-/gotestmd
 
 /dump*

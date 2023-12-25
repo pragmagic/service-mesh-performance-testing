@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nsmgr-proxy
+spec:
+  strategy:
+    type: Recreate
+    rollingUpdate: null
+  template:
+    spec:
+      containers:
+      - name: nsmgr-proxy
+        resources:
+          limits:
+            cpu: null
+      - name: map-ip-k8s
+        resources:
+          limits:
+            cpu: null

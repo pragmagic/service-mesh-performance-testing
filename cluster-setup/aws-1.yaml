@@ -1,0 +1,24 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: aws-msm-perf-test-1
+  region: us-east-1
+  version: '1.27'
+
+kubernetesNetworkConfig:
+  ipFamily: IPv4
+
+addons:
+- name: vpc-cni
+- name: coredns
+- name: kube-proxy
+
+iam:
+  withOIDC: true
+
+managedNodeGroups:
+- name: aws-msm-perf-test-1
+  instanceType: m5.2xlarge
+  desiredCapacity: 1
