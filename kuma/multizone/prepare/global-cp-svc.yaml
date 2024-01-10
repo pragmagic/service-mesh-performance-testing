@@ -1,0 +1,27 @@
+---
+# Source: kuma/templates/cp-global-sync-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kuma-global-zone-sync
+  namespace: kuma-global-cp
+  annotations:
+  labels: 
+    app: kuma-control-plane
+    helm.sh/chart: kuma-2.4.3
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/version: "2.4.3"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5685
+      appProtocol: grpc
+      name: global-zone-sync
+      # nodePort: 30085
+  selector:
+    app: kuma-control-plane
+  
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/instance: kuma
