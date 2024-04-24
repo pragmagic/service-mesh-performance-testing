@@ -9,6 +9,7 @@ spec:
   ports:
   - port: 80
     protocol: TCP
+    appProtocol: http
   selector:
     app: nginx
 ---
