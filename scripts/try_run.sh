@@ -85,7 +85,7 @@ function run_line_logged() {
     # which prevents usage of exported bash variables and environment variables.
     {
         try_run_line_once "$*"
-    } > >(
+    } | ( #} > >(
         # AWK is for prefix only, fflush is required
         # because pipes that aren't connected to a terminal are fully buffered.
         awk -v prefix="$log_prefix: " '{print prefix $0; fflush()}' | 

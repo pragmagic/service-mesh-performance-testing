@@ -1,4 +1,4 @@
-#!/usr/bin/env false "This script should be sourced in a shell, not executed directly"
+#!/usr/bin/env bash
 
 # ===== get script folder =====
 shellname=$(ps -cp "$$" -o command="")
@@ -16,12 +16,13 @@ parent_path=$( cd "$(dirname "$script_path")" && pwd -P ) || return || exit
 kube_config_dir=/tmp/kube-configs
 
 echo '#!/usr/bin/env false "This script should be sourced in a shell, not executed directly"
+unset USE_KIND_NODE
 unset CLUSTER1_CIDR
 unset CLUSTER2_CIDR
 export KUBECONFIG1="'"$kube_config_dir"'"/kubeconfig-aws-1
 export KUBECONFIG2="'"$kube_config_dir"'"/kubeconfig-aws-2
 export K8S_ENV_NAME=aws_aws
-source "$1"/aws-login.sh
+source "$parent_path"/private/aws-login.sh
 ' > "$parent_path"/private/current-env.sh
 chmod +x "$parent_path"/private/current-env.sh
 
