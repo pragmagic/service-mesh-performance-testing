@@ -30,4 +30,4 @@ clusterctl generate cluster msm-perf-test-2 \
   | sed 's/"eipTag"/"metro": "'"$METRO"'", "loadbalancer": "metallb:\/\/\/", "eipTag"/' \
   > "$parent_path"/private/packet-cluster-2.yaml || exit
 
-kubectl apply -f "$parent_path"/private/packet-cluster-1.yaml
+kubectl apply -f "$parent_path"/private/packet-cluster-2.yaml

@@ -1,4 +1,4 @@
-#!/usr/bin/env false "This script should be sourced in a shell, not executed directly"
+#!/usr/bin/env bash
 
 # ===== get script folder =====
 shellname=$(ps -cp "$$" -o command="")
@@ -26,6 +26,7 @@ skip_fetch=${3:-}
 kube_config_path=$parent_path/private/kubeconfig/packet_$remote_cluster_index.yaml
 
 echo '#!/usr/bin/env false "This script should be sourced in a shell, not executed directly"
+unset USE_KIND_NODE
 unset CLUSTER'$local_cluster_index'_CIDR
 export KUBECONFIG'$local_cluster_index'="'"$kube_config_path"'"
 export K8S_ENV_NAME'$local_cluster_index'=packet

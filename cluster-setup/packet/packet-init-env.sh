@@ -1,4 +1,4 @@
-#!/usr/bin/env false "This script should be sourced in a shell, not executed directly"
+#!/usr/bin/env bash
 
 # ===== get script folder =====
 shellname=$(ps -cp "$$" -o command="")
@@ -24,4 +24,4 @@ export KUBECONFIG="$config"
 
 . "$parent_path"/private/packet-login.sh || return 1
 
-clusterctl init --core cluster-api:v1.5.2 --infrastructure packet:v0.7.2
+clusterctl init --infrastructure packet:v0.8.0

@@ -3,8 +3,9 @@
 function install_clusterctl() {
     clusterctl version && return
 
-    curl -L https://github.com/kubernetes-sigs/cluster-api/releases/download/v1.5.2/clusterctl-linux-amd64 -o clusterctl || exit
-    sudo install -o root -g root -m 0755 clusterctl /usr/local/bin/clusterctl
+    curl -L https://github.com/kubernetes-sigs/cluster-api/releases/download/v1.6.2/clusterctl-darwin-amd64 -o clusterctl || exit
+    chmod +x ./clusterctl || exit
+    sudo mv ./clusterctl /usr/local/bin/clusterctl || exit
     clusterctl version || exit
 }
 

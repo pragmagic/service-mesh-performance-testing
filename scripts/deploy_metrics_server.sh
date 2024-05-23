@@ -12,7 +12,7 @@ function install_metrics_server_in_cluster() {
         echo installing metrics API
         $kctl apply -f "$parent_path/metrics-server.yaml"
     else
-        echo "$kctl already has metrict API"
+        echo "$kctl already has metrics API"
     fi
 }
 
